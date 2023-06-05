@@ -72,4 +72,22 @@ public class JogoController {
 
         return "redirect:/jogo/list";
     }
+
+    @RequestMapping("/delete")
+    public String delete(Model model, @RequestParam("id") int id) {
+        Optional<Jogo> jogoContainer = jogoRepo.findById(id);
+
+        if(jogoContainer.isPresent()) {
+            model.addAttribute("jogo", jogoContainer.get());
+            return "/jogo/delete";
+        }
+        return "redirect:/jogo/list";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("id") int id) {
+        jogoRepo.deleteById(id);
+        
+        return "redirect:/jogo/list";
+    }
 }
