@@ -54,4 +54,22 @@ public class JogoController {
         }
         return "redirect:/jogo/list";
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(
+        @RequestParam("id") int id,
+        @RequestParam("titulo") String titulo,
+        @RequestParam("anoDePublicacao") int anoDePublicacao
+    ) {
+        Optional<Jogo> jogoContainer = jogoRepo.findById(id);
+
+        if(jogoContainer.isPresent()) {
+            jogoContainer.get().setTitulo(titulo);
+            jogoContainer.get().setAnoDePublicacao(anoDePublicacao);
+
+            jogoRepo.save(jogoContainer.get());
+        }
+
+        return "redirect:/jogo/list";
+    }
 }
